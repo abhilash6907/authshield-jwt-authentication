@@ -1,0 +1,30 @@
+{
+  "name": "nodejwtauth",
+  "version": "1.0.0",
+  "description": "A secure authentication system using Node.js, Express, and JWT for login, logout, and protected routes.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhilash6907/authshield-jwt-authentication.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abhilash6907/authshield-jwt-authentication/issues"
+  },
+  "homepage": "https://github.com/abhilash6907/authshield-jwt-authentication#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "mongodb": "^6.18.0",
+    "mongoose": "^8.17.1",
+    "multer": "^2.0.2",
+    "nodemon": "^3.1.10"
+  }
+}
