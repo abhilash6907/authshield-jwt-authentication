@@ -38,7 +38,7 @@ const userRegister = async (req, res) => {
 
     const userData = await user.save();
 
-    // ✅ Corrected verification link
+    //  Corrected verification link
   const msg = `<p>Hello, ${name}, please <a href="http://localhost:3000/mail-verification?id=${userData._id}">Verify</a> your mail.</p>`;
 
     mailer.sendMail(email, "Mail Verification", msg);
@@ -61,17 +61,17 @@ const mailVerification = async (req, res) => {
   try {
     const userId = req.query.id;
 
-    // ✅ 1. Check if ID exists
+    //  1. Check if ID exists
     if (!userId) {
       return res.render("404");
     }
 
-    // ✅ 2. Validate ObjectId
+    //  2. Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.render("mail-verification", { message: "Invalid verification link!" });
     }
 
-    // ✅ 3. Find user
+    //  3. Find user
     const userData = await User.findOne({ _id: userId });
 
     if (!userData) {
