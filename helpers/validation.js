@@ -31,3 +31,7 @@ exports.registerValidator = [
   }).withMessage("please upload an image Jpeg, PNG")
 
 ];
+
+
+
+

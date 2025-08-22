@@ -14,8 +14,13 @@ mongoose.connect(
   console.error("connection failed!", err);
 });
 
-const userRoute=require('./routes/userRoute');
+app.set('view engine', 'ejs');
+app.set('views', './views')
 
+const userRoute=require('./routes/userRoute');
+const authRoute=require('./routes/authRoute');
+
+app.use('/', authRoute)
 app.use('/api', userRoute);
 
 app.get("/",function(req,res){
