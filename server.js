@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const port = process.env.SERVER_PORT || 3000;
 
+
 mongoose.connect(
   "mongodb+srv://abhilashtalwar77:gyTvhwzlVailuqM9@nodejwtauth.kyp1cqo.mongodb.net/?retryWrites=true&w=majority&appName=NodeJWTAuth"
 )

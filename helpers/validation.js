@@ -63,4 +63,12 @@ exports.loginValidator=[
 
 ]
 
+exports.updateProfileValidator=[
+  check('name', 'Name is required').not().isEmpty(),
+  check('mobile', 'Mobile No. should contain exactly 10 digits')
+    .isLength({ min: 10, max: 10 })
+    .isNumeric(),
+
+]
+
 

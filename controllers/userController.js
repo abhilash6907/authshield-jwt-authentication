@@ -7,6 +7,7 @@ const Randomstring = require("randomstring");
 const jwt = require('jsonwebtoken')
 
 const PasswordReset = require("../models/passwordReset");
+const { name } = require("ejs");
 
 const userRegister = async (req, res) => {
   try {
@@ -250,20 +251,23 @@ const resetSuccess = (req, res) => {
 
 
 const generateAccessToken = (user) => {
-  const payload = {
-    id: user._id,
-    email: user.email,
-  };
-  const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "1h", 
-  });
+  // const payload = {
+  //   id: user._id,
+  //   email: user.email,
+  // };
+  // const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+  //   expiresIn: "1h", 
+  // });
 
+  // return token;
+
+  const token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET,{expiresIn:"2h"})
   return token;
 };
 
 
 
-const logUser= async(req,res)=>{
+const loginUser= async(req,res)=>{
   try {
     const errors= validationResult(req);
 
@@ -322,6 +326,67 @@ if (!errors.isEmpty()) {
   }
 }
 
+const userProfile=async(req,res)=>{
+
+try {
+
+   const userData = req.user.user;
+
+  return res.status(200).json({
+    success: true,
+    msg: 'user profile data!',
+    data: userData
+  })
+  
+} catch (error) {
+   return res.status(400).json({
+        success: false,
+        msg: error.message
+      });
+}
+}
+
+const updateProfile = async (req,res)=>{
+
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        msg: "Errors",
+        errors: errors.array(),
+      });
+    }
+  
+    const{name,mobile}= req.body;
+
+    const data={
+      name,
+      mobile
+    }
+
+    if(req.file !== undefined){
+      data.image ='image/' + req.file.filename;
+    }
+
+   const userData= await User.findByIdAndUpdate({_id:req.user.user._id},{
+    $set: data
+   },{new:true})
+    
+   return res.status(200).json({
+        success: true,
+        msg: 'User updated successfully',
+        user:userData
+      });
+  } catch (error) {
+     return res.status(400).json({
+        success: false,
+        msg: error.message
+      });
+  }
+
+}
+
 module.exports = {
   userRegister,
   mailVerification,
@@ -330,5 +395,7 @@ module.exports = {
   resetPassword,
   updatePassword,
   resetSuccess,
-  logUser
+  loginUser,
+  userProfile,
+  updateProfile
 };
