@@ -35,7 +35,7 @@ const upload = multer({
    fileFilter:fileFilter });
 
 const userController = require("../controllers/userController");
-const {registerValidator, sendMailVerificationValidator, passwordResetValidator,loginValidator,updateProfileValidator} =require('../helpers/validation');
+const {registerValidator, sendMailVerificationValidator, passwordResetValidator,loginValidator,updateProfileValidator,OtpMailValidation} =require('../helpers/validation');
 
 router.post("/register", upload.single("image"), registerValidator, userController.userRegister); 
 
@@ -47,8 +47,13 @@ router.post('/login',loginValidator,userController.loginUser);
 
 //authenticated  
 router.get('/profile',auth,userController.userProfile);
-
 router.post('/update-profile',auth,upload.single("image"),updateProfileValidator ,userController.updateProfile);
+router.get('/refresh-token', auth, userController.refreshToken)
+router.get('/logout', auth, userController.logout)
+
+
+// otp  verification routes
+router.post('/send-otp',OtpMailValidation,userController.sendOtp);
 
 
 

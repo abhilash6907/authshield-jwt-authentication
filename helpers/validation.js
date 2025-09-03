@@ -71,4 +71,10 @@ exports.updateProfileValidator=[
 
 ]
 
-
+exports.OtpMailValidation=[
+  check('email', 'Please include a valid email')
+    .isEmail()
+    .normalizeEmail({
+      gmail_remove_dots: true
+    })
+]
