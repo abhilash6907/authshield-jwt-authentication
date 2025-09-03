@@ -519,60 +519,7 @@ const sendOtp = async (req, res) => {
   }
 };
 
-// const sendOtp= async(req,res)=>{
-//   try {
-//     const errors = validationResult(req);
 
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({
-//         success: false,
-//         msg: "Errors",
-//         errors: errors.array(),
-//       });
-//     }
-//     const { email } = req.body;
-
-//     const userData = await User.findOne({ email });
-
-//     if (!userData) {
-//       return res.status(400).json({
-//         success: false,
-//         msg: "Email doesn't exists!",
-//       });
-//     }
-
-//     if (userData.is_verified == 1)
-//       return res.status(400).json({
-//         success: false,
-//         msg: userData.email + " Email is already exists!",
-//       });
-
-//     const g_otp= await generateRandom4digit();
-
-//     const enter_otp = new Otp({
-//       user_id:userData._id,
-//       otp:g_otp
-//     })
-
-//     await enter_otp.save();
-
-//     const msg = '<p> Hii <b>'+ userData.name+' </br> <h4>'+g_otp+'</h4> </p>';
-
-//     mailer.sendMail(userData.email, "Otp Verification", msg);
-
-//     return res.status(200).json({
-//       success: true,
-//       msg: "Otp has been  sent to your mail, please check.",
-//     });
-
-
-//   } catch (error) {
-//     return res.status(400).json({
-//       success: false,
-//       msg: "Invalid token",
-//     });
-// }
-// }
 
 module.exports = {
   userRegister,
