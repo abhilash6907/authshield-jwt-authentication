@@ -452,7 +452,6 @@ const generateRandom4digit = () => {
 
 const sendOtp = async (req, res) => {
   try {
-    // validate input
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -464,7 +463,6 @@ const sendOtp = async (req, res) => {
 
     const { email } = req.body;
 
-    // check if user exists
     const userData = await User.findOne({ email });
     if (!userData) {
       return res.status(400).json({
@@ -473,7 +471,6 @@ const sendOtp = async (req, res) => {
       });
     }
 
-    // check if already verified
     if (userData.is_verified === 1) {
       return res.status(400).json({
         success: false,
@@ -481,21 +478,18 @@ const sendOtp = async (req, res) => {
       });
     }
 
-    // generate and save otp
     const g_otp = generateRandom4digit();
 
-    // clear previous OTPs for the same user (optional but better)
     await Otp.deleteMany({ user_id: userData._id });
 
     const enter_otp = new Otp({
       user_id: userData._id,
       otp: g_otp,
-      expiresAt: Date.now() + 5 * 60 * 1000, // expires in 5 mins
+      expiresAt: Date.now() + 5 * 60 * 1000, 
     });
 
     await enter_otp.save();
 
-    // prepare email
     const msg = `
       <p>Hi <b>${userData.name}</b>,</p>
       <p>Your OTP for verification is:</p>
@@ -503,7 +497,6 @@ const sendOtp = async (req, res) => {
       <p>This OTP is valid for 5 minutes.</p>
     `;
 
-    // send email
     await mailer.sendMail(userData.email, "OTP Verification", msg);
 
     return res.status(200).json({
@@ -511,7 +504,7 @@ const sendOtp = async (req, res) => {
       msg: "OTP has been sent to your mail, please check.",
     });
   } catch (error) {
-    console.error("sendOtp Error:", error); // <-- this shows real problem
+    console.error("sendOtp Error:", error); 
     return res.status(500).json({
       success: false,
       msg: "Something went wrong. Please try again later.",
